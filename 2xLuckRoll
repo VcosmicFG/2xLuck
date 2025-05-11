@@ -1,0 +1,154 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame1 = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Frame2 = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local ToggleButton = Instance.new("TextButton")
+local UICorner_3 = Instance.new("UICorner")
+local TextLabel = Instance.new("TextLabel")
+local TextLabel_2 = Instance.new("TextLabel")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame1.Name = "Frame1"
+Frame1.Parent = ScreenGui
+Frame1.BackgroundColor3 = Color3.fromRGB(189, 189, 189)
+Frame1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame1.BorderSizePixel = 0
+Frame1.Position = UDim2.new(0.324127913, 0, 0.288944721, 0)
+Frame1.Size = UDim2.new(0, 249, 0, 161)
+
+UICorner.Parent = Frame1
+
+Frame2.Name = "Frame2"
+Frame2.Parent = Frame1
+Frame2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame2.BorderSizePixel = 0
+Frame2.Position = UDim2.new(0.0538923256, 0, 0.0621118024, 0)
+Frame2.Size = UDim2.new(0, 223, 0, 141)
+
+UICorner_2.Parent = Frame2
+
+ToggleButton.Name = "ToggleButton"
+ToggleButton.Parent = Frame2
+ToggleButton.BackgroundColor3 = Color3.fromRGB(163, 163, 163)
+ToggleButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleButton.BorderSizePixel = 0
+ToggleButton.Position = UDim2.new(0.19730942, 0, 0.588652492, 0)
+ToggleButton.Size = UDim2.new(0, 134, 0, 43)
+ToggleButton.Font = Enum.Font.SourceSans
+ToggleButton.Text = ""
+ToggleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+ToggleButton.TextScaled = true
+ToggleButton.TextSize = 14.000
+ToggleButton.TextWrapped = true
+
+UICorner_3.Parent = ToggleButton
+
+TextLabel.Parent = Frame2
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(0.0493273549, 0, 0.148936167, 0)
+TextLabel.Size = UDim2.new(0, 200, 0, 50)
+TextLabel.Font = Enum.Font.LuckiestGuy
+TextLabel.Text = "2x Luck"
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+TextLabel_2.Parent = Frame2
+TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_2.BackgroundTransparency = 1.000
+TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_2.BorderSizePixel = 0
+TextLabel_2.Position = UDim2.new(0.0493273549, 0, 0.319148928, 0)
+TextLabel_2.Size = UDim2.new(0, 200, 0, 50)
+TextLabel_2.Font = Enum.Font.SourceSans
+TextLabel_2.Text = "Made By: Cosmic"
+TextLabel_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_2.TextSize = 14.000
+
+-- Scripts:
+
+local function RVNSC_fake_script() -- ToggleButton.LocalScript 
+	local script = Instance.new('LocalScript', ToggleButton)
+
+	local button = script.Parent
+	local isOn = false
+	
+	local function updateButton()
+		if isOn then
+			button.BackgroundColor3 = Color3.fromRGB(0, 200, 0) -- Green
+			button.Text = "ON"
+		else
+			button.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Red
+			button.Text = "OFF"
+		end
+	end
+	
+	button.MouseButton1Click:Connect(function()
+		isOn = not isOn
+		updateButton()
+	end)
+	
+	-- Initialize button appearance
+	updateButton()
+	
+end
+coroutine.wrap(RVNSC_fake_script)()
+local function MVKBQ_fake_script() -- Frame1.LocalScript 
+	local script = Instance.new('LocalScript', Frame1)
+
+	local UIS = game:GetService("UserInputService")
+	local frame = script.Parent
+	
+	local dragging = false
+	local dragInput, mousePos, framePos
+	
+	local function update(input)
+		local delta = input.Position - mousePos
+		frame.Position = UDim2.new(
+			framePos.X.Scale, framePos.X.Offset + delta.X,
+			framePos.Y.Scale, framePos.Y.Offset + delta.Y
+		)
+	end
+	
+	frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+			mousePos = input.Position
+			framePos = frame.Position
+	
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	frame.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement then
+			dragInput = input
+		end
+	end)
+	
+	UIS.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			update(input)
+		end
+	end)
+	
+end
+coroutine.wrap(MVKBQ_fake_script)()
